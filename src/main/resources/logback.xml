@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 控制台输出 --> 
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<Encoding>UTF-8</Encoding>
+		<layout class="ch.qos.logback.classic.PatternLayout">     
+             <!--格式化输出：%d表示日期，%thread表示线程名,%-5level：级别从左显示5个字符宽度,%msg：日志消息,%n是换行符-->   
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class %method %line - %msg%n</pattern>     
+        </layout>     
+	</appender>
+	
+	<!-- <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            按天回滚 daily
+            log.dir 在maven profile里配置
+            <fileNamePattern>${log.dir}/es-error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            日志最大的历史 60天
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender> -->
+	<appender name="trace" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+		<!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
+		<!--for further documentation-->
+		<File>${log.dir}/SystemOut.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${log.dir}/SystemOut-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+	
+	<!-- 日志输出级别 -->  
+    <root level="info">     
+		<appender-ref ref="STDOUT"/>
+        <!-- <appender-ref ref="trace"/> -->
+    </root>
+    
+    <!-- <logger name="net.chinacloud.mediator" level="info" additivity="false">
+    	<appender-ref ref="STDOUT"/>
+    </logger> -->
+    
+    <!-- sql执行日志,只能输出未填充参数的sql,不太实用 -->
+    <!-- <logger name="org.springframework.jdbc.core" additivity="false">  
+        <level value="debug" />  
+        日志输出地  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.Connection" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.Statement" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.PreparedStatement" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger>  
+    <logger name="java.sql.ResultSet" additivity="false">  
+        <level value="debug" />  
+        <appender-ref ref="STDOUT" />  
+    </logger> -->
+    
+    <!-- 借助druid输出sql执行日志,记录的日志比较丰富,除非必要,否则不建议在生产环境开启 -->
+    <logger name="druid.sql" level="info" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.Statement" level="info" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.Connection" level="info" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.DataSource" level="info" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="druid.sql.ResultSet" level="info" additivity="false">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+</configuration>

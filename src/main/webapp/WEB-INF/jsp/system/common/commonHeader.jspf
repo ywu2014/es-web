@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="es" />
+<meta name="description" content="es基础框架,整合一些常用的框架,提供一些通用的模块" />
+    
+<!--[if lt IE 8]>
+	<meta http-equiv="refresh" content="0;ie.html" />
+<![endif]-->
+
+<link rel="${ctx }/static/lib/hplus/shortcut icon" href="favicon.ico">
+<link href="${ctx }/static/lib/hplus/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+<link href="${ctx }/static/lib/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="${ctx }/static/lib/hplus/css/animate.min.css" rel="stylesheet">
+<link href="${ctx }/static/lib/hplus/css/style.min.css?v=4.0.0" rel="stylesheet">
+
+<script type="text/javascript">
+	//引入的js文件中使用的上下文
+	var ctx = "${ctx}";
+</script>

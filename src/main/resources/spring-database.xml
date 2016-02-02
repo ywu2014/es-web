@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 数据源dataSource -->
+	<!-- 数据源,alibaba的druid -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+      <!-- 基本属性 url、user、password -->
+      <property name="url" value="${connection.url}" />
+      <property name="username" value="${connection.username}"/>
+      <property name="password" value="${connection.password}"/>
+      <!-- 配置初始化大小、最小、最大 -->
+      <property name="initialSize" value="${druid.initialSize}"/>
+      <property name="minIdle" value="${druid.minIdle}"/> 
+      <property name="maxActive" value="${druid.maxActive}"/>
+      <!-- 配置获取连接等待超时的时间 -->
+      <property name="maxWait" value="${druid.maxWait}"/>
+      <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+      <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}"/>
+      <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+      <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}"/>
+      <property name="validationQuery" value="${druid.validationQuery}"/>
+      <property name="testWhileIdle" value="${druid.testWhileIdle}"/>
+      <property name="testOnBorrow" value="${druid.testOnBorrow}"/>
+      <property name="testOnReturn" value="${druid.testOnReturn}"/>
+      <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+      <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}"/>
+      <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}"/>
+      <!-- 配置监控统计拦截的filters -->
+      <property name="filters" value="${druid.filters}"/>
+      <!-- 开启sql执行日志 -->
+      <property name="proxyFilters">
+          <list>
+              <ref bean="log-filter"/>
+          </list>
+      </property>
+    </bean>
+    
+    <bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="statementExecutableSqlLogEnable" value="true" />
+  	</bean>
+	
+	<!--(事务管理)transaction manager -->
+	<!-- <bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean> -->
+
+	<!--创建SqlSessionFactory，同时指定数据源 -->
+	<!-- <bean id="sqlSessionFactory" class="com.jiangnan.es.mybatis.plugin.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:META-INF/spring/mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="basePackage" value="com.jiangnan"/>
+		<property name="baseScan" value="mappings"/>
+	</bean> -->
+
+	<!-- <bean id="simpleSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+		<constructor-arg index="1" value="SIMPLE"/>
+	</bean> -->
+</beans>
