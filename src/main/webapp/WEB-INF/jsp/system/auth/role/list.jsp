@@ -60,9 +60,8 @@
         </div>
     </div>
     
-    <div class="modal inmodal" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true">
-	    
-	</div>
+    <div class="modal inmodal" id="editDialog" tabindex="-1" role="dialog" aria-hidden="true"></div>
+    <div class="modal inmodal" id="authDialog" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
     <%@include file="../../common/globalScript.jspf" %>
     <script src="${ctx }/static/lib/hplus/js/plugins/peity/jquery.peity.min.js"></script>
@@ -190,7 +189,7 @@
 			$("#authRole").click(function() {
 				var id = $("#roleList").jqGrid('getGridParam', 'selrow');
 				if (id) {
-					$("#editDialog").bedialog({
+					$("#authDialog").bedialog({
 					    url: "${ctx}/system/auth/role/privilege/list/" + id
 					});
 				} else {

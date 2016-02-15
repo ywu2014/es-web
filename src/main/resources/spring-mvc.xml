@@ -20,12 +20,12 @@
     </context:component-scan>
     
     <!-- 转换器 -->
-    <!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
-        日期格式转换  
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
+        <!-- 日期格式转换 -->
         <property name="webBindingInitializer">
-            <bean class="net.chinacloud.mediator.web.converter.DateConverter"/>
+            <bean class="com.jiangnan.es.common.web.converter.DateConverter"/>
         </property>  
-    </bean> -->
+    </bean>
     
     <!-- 注册默认的RequestMappingHandlerMapping、RequestMappingHandlerAdapter -->
     <mvc:annotation-driven 

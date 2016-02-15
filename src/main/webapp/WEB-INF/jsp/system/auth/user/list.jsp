@@ -38,18 +38,17 @@
 	                                    <input name="email" type="text" class="form-control" placeholder="邮箱">
 	                                </div>
 	                            </div>
-	                            <div class="col-sm-3 m-b-xs">
+	                            <div class="col-sm-6 m-b-xs">
 	                                <div class="input-group m-b">
-	                                	<span class="input-group-btn"><button type="button" class="btn btn-default">访问开始时间</button></span>
-	                                    <input name="startVisitTime" type="text" class="form-control" placeholder="访问开始时间">
+	                                	<span class="input-group-btn"><button type="button" class="btn btn-default">访问时间</button></span>
+	                                    <div class="input-daterange input-group" id="datepicker">
+			                                <input id="startTime" type="text" class="form-control" name="startVisitTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'#F{$dp.$D(\'endTime\')}', readOnly:true})"/>
+			                                <span class="input-group-addon">到</span>
+			                                <input id="endTime" type="text" class="form-control" name="endVisitTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', maxDate:'%y-%M-%d %H:%m:%s', minDate:'#F{$dp.$D(\'startTime\')}', readOnly:true})"/>
+			                            </div>
 	                                </div>
 	                            </div>
-	                            <div class="col-sm-3 m-b-xs">
-	                                <div class="input-group m-b">
-	                                	<span class="input-group-btn"><button type="button" class="btn btn-default">访问结束时间</button></span>
-	                                    <input name="endVisitTime" type="text" class="form-control" placeholder="访问结束时间">
-	                                </div>
-	                            </div>
+	                            
 	                        </div>
                         </form>
                         <div class="row">
@@ -83,6 +82,7 @@
     <script src="${ctx }/static/lib/hplus/js/plugins/bedialog/jquery.bedialog.js"></script>
     <script src="${ctx }/static/lib/hplus/js/plugins/form/jquery.form.js"></script>
     <script src="${ctx }/static/lib/hplus/js/plugins/toastr/toastr.min.js"></script>
+    <script src="${ctx }/static/lib/hplus/js/plugins/my97DatePicker/WdatePicker.js"></script>
     <script>
         $(document).ready(function() {
         	$.jgrid.defaults.styleUI = "Bootstrap";
@@ -131,8 +131,9 @@
 	      	//查询
 	        $("#queryUser").click(function() { 
 	        	var params = $("#userSearchForm").serializeObject();
-	        	console.log(params);
-	        	$("#userList").jqGrid('setGridParam', 'postData', params);
+	        	var pd = $("#userList").jqGrid('getGridParam', 'postData');
+	        	pd = $.extend(pd, params);
+	        	$("#userList").jqGrid('setGridParam', 'postData', pd);
 	        	$("#userList").trigger("reloadGrid");
 	        });
 	      	

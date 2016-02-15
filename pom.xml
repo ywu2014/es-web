@@ -125,6 +125,10 @@
     	<groupId>com.jiangnan</groupId>
     	<artifactId>es-authorization</artifactId>
     </dependency>
+    <dependency>
+    	<groupId>com.jiangnan</groupId>
+    	<artifactId>es-schedule-quartz</artifactId>
+    </dependency>
     <!-- <dependency>
     	<groupId>com.jiangnan</groupId>
     	<artifactId>es-mybatis</artifactId>
