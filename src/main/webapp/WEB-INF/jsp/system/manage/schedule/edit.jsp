@@ -44,6 +44,12 @@
                         <input type="text" name="description" placeholder="描述" class="form-control" value="${jobTask.description }"/>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">参数：</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="params" placeholder="参数" class="form-control" value="${jobTask.params }"/>
+                    </div>
+                </div>
 			</form>
         </div>
         <div class="modal-footer">
