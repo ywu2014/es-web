@@ -48,7 +48,6 @@
 			                            </div>
 	                                </div>
 	                            </div>
-	                            
 	                        </div>
                         </form>
                         <div class="row">
