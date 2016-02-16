@@ -17,19 +17,19 @@
                     <label class="col-sm-3 control-label">beanId：</label>
                     <div class="col-sm-8">
                     	<input type="hidden" name="id" value="${jobTask.id }"/>
-                        <input type="text" name="beanId" placeholder="beanId" class="form-control" value="${jobTask.beanId }"/>
+                        <input type="text" name="beanId" placeholder="beanId" class="form-control" value="${jobTask.beanId }" <c:if test="${action eq 'update' }">readonly="readonly"</c:if>/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">方法名称：</label>
                     <div class="col-sm-8">
-                        <input name="methodName" placeholder="方法名称" class="form-control" value="${jobTask.methodName }"/>
+                        <input name="methodName" placeholder="方法名称" class="form-control" value="${jobTask.methodName }" <c:if test="${action eq 'update' }">readonly="readonly"</c:if>/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">组名称：</label>
                     <div class="col-sm-8">
-                        <input type="text" name="group" placeholder="组名称" class="form-control" value="${jobTask.group }"/>
+                        <input type="text" name="group" placeholder="组名称" class="form-control" value="${jobTask.group }" <c:if test="${action eq 'update' }">readonly="readonly"</c:if>/>
                     </div>
                 </div>
                 <div class="form-group">
