@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>H+ 后台主题UI框架 - 数据表格</title>
+    <title>资源列表</title>
 	<%@include file="../../common/commonHeader.jspf" %>
     <!-- Data Tables -->
 	<link href="${ctx }/static/lib/hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet">
