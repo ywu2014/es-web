@@ -28,4 +28,7 @@
     	<property name="useCodeAsDefaultMessage" value="false"/>
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
+    
+    <!-- 密码验证服务 -->
+    <bean class="com.jiangnan.es.authorization.user.service.impl.DefaultPasswordServiceImpl"/>
 </beans>

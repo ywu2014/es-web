@@ -65,7 +65,6 @@
         <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
         <property name="realm" ref="userRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
-        
         <!-- 暂时不使用 -->
         <!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
     </bean>
@@ -77,7 +76,7 @@
         <!-- 未授权页面url -->
         <property name="unauthorizedUrl" value="${shiro.unauthorizedUrl}"/>
         <!-- 登陆成功跳转url -->
-        <property name="successUrl" value=""/>
+        <property name="successUrl" value="${shiro.login.success.url}"/>
         <!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
         <!-- defined will be automatically acquired and available via its beanName in chain        -->
         <!-- definitions, but you can perform instance overrides or name aliases here if you like: -->
@@ -85,6 +84,7 @@
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
                 <entry key="logout" value-ref="logoutFilter"/>
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -93,14 +93,14 @@
                 /favicon.ico = anon
                 /logout = logout
                 /login = authc
-                /** = user
+                /** = kickout,user
             </value>
         </property>
     </bean>
     
     <!-- 权限验证过滤器 -->
     <!-- 基于form表单的身份验证过滤器 -->
-    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.CustomFormAuthenticationFilter">
+    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.CustomFormAuthenticationFilter">
     	<!-- 表单用户名参数名称 -->
     	<property name="usernameParam" value="userName"/>
     	<!-- 表单密码参数名称 -->
@@ -111,4 +111,16 @@
     <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
         <property name="redirectUrl" value="${shiro.logout.success.url}"/>
     </bean>
+    
+    <!-- 同账号多人登录过滤器 -->
+	<bean id="kickoutSessionControlFilter" class="org.apache.shiro.web.filter.KickoutSessionControlFilter">
+    	<!-- 最多同时登录数 -->
+    	<property name="maxSession" value="1"/>
+    	<!-- 是否剔除后登录者 -->
+    	<property name="kickoutLater" value="true"/>
+    	<!-- 剔除后跳转url -->
+    	<property name="kickoutUrl" value="${shiro.kickout.url}"/>
+    	<property name="sessionManager" ref="sessionManager"/>
+    </bean>
+    
 </beans>
