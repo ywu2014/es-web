@@ -68,6 +68,8 @@ public class UserRealm extends AuthorizingRealm {
 		
 		User user = new User(userName, password);
 		
+		//TODO 可以在此check登录次数
+		
 		try {
 			loginService.login(user);
 		} catch (AccountNotExistException e) {
