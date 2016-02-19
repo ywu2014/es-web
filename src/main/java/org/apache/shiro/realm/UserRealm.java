@@ -5,6 +5,8 @@
  */
 package org.apache.shiro.realm;
 
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,15 +18,22 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jiangnan.es.authorization.privilege.entity.Operation;
+import com.jiangnan.es.authorization.privilege.entity.Privilege;
+import com.jiangnan.es.authorization.role.entity.Role;
+import com.jiangnan.es.authorization.role.service.RoleService;
 import com.jiangnan.es.authorization.user.entity.User;
 import com.jiangnan.es.authorization.user.exception.PasswordNotMatchException;
+import com.jiangnan.es.authorization.user.service.UserService;
 import com.jiangnan.es.login.exception.AccountLockedException;
 import com.jiangnan.es.login.exception.AccountNotExistException;
 import com.jiangnan.es.login.service.LoginService;
+import com.jiangnan.es.util.CollectionUtils;
 
 /**
  * @description 自定义用户认证、授权realm
@@ -37,6 +46,10 @@ public class UserRealm extends AuthorizingRealm {
 	
 	@Resource
 	LoginService loginService;
+	@Resource
+	UserService userService;
+	@Resource
+	RoleService roleService;
 	
 	@Override
 	public String getName() {
@@ -51,8 +64,29 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
-		// TODO Auto-generated method stub
-		return null;
+		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+		
+		String userName = (String)principals.getPrimaryPrincipal();
+		User user = userService.findByUserName(userName);
+		
+		Set<Role> roles = userService.getRoles(user);
+		if (!CollectionUtils.isEmpty(roles)) {
+			for (Role role : roles) {
+				authorizationInfo.addRole(role.getCode());
+				
+				Set<Privilege> privileges = roleService.getPrivileges(role);
+				if (!CollectionUtils.isEmpty(privileges)) {
+					for (Privilege privilege : privileges) {
+						com.jiangnan.es.authorization.resource.entity.Resource resource 
+							= privilege.getResource();
+						Operation operation = privilege.getOperation();
+						authorizationInfo.addStringPermission(resource.getIdentifier() + ":" + operation.getCode());
+					}
+				}
+			}
+		}
+		
+		return authorizationInfo;
 	}
 
 	@Override

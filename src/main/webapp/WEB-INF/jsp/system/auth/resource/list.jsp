@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,9 +47,11 @@
                     <div class="ibox-content">
                     	<div class="row">
 	                        <div class="col-sm-3 m-b-xs">
-	                            <button id="addResource" class="btn btn-primary btn-xs"><i class="fa fa-check"></i>&nbsp;添加</button>
-                        </div>
-                    </div>
+	                        	<shiro:hasPermission name="resource:add">
+	                        		<button id="addResource" class="btn btn-primary btn-xs"><i class="fa fa-check"></i>&nbsp;添加</button>
+	                        	</shiro:hasPermission>
+                        	</div>
+                    	</div>
                         <table id="resourceTable" class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>

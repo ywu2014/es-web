@@ -17,6 +17,9 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
+	<!-- <aop:config proxy-target-class="true" expose-proxy="true"/> -->
+	<!-- <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/> -->
+	
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
     	<property name="basenames">
     		<list>
