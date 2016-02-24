@@ -86,6 +86,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 			queue.push(sessionId);
 		}
 		
+		//TODO session过期时需要从缓存中清除登录限制信息
 		while(queue.size() > this.maxSession) {
 			Serializable kickoutSessionId = null;
 			if (kickoutLater) {

@@ -31,6 +31,7 @@ public class LoginController extends BaseController {
 		
 		Exception loginFailureException = (Exception)request.getAttribute("shiroLoginFailure");
 		if (null != loginFailureException) {
+			loginFailureException.printStackTrace();
 			if (loginFailureException instanceof UnknownAccountException) {
 				model.addAttribute("loginError", "未知的账号");
 			} else if (loginFailureException instanceof LockedAccountException) {

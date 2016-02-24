@@ -12,9 +12,12 @@
 	  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="userRealm" class="org.apache.shiro.realm.UserRealm">
-		<!-- 暂时禁用缓存 -->
-		<property name="authenticationCachingEnabled" value="false"/>
-        <property name="authorizationCachingEnabled" value="false"/>
+		<!-- 缓存 -->
+		<property name="authenticationCachingEnabled" value="true"/>
+		<property name="authenticationCacheName" value="shiroAuthenticationCache"/>
+		<!-- 授权信息最好不要使用这种缓存方式,因为授权信息会动态修改 -->
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="shiroAuthorizationCache"/>
 	</bean>
 	
 	<!-- session cookie -->
@@ -34,6 +37,10 @@
 	<!-- 会话创建工厂 -->
 	<bean id="sessionFactory" class="org.apache.shiro.session.mgt.SimpleSessionFactory"/>
 	
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.SpringEhCacheManagerWrapper">
+        <property name="cacheManager" ref="springCacheManager"/>
+    </bean>
+	
 	<!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- 全局会话失效时间 ,默认情况下globalSessionTimeout将应用给所有Session-->
@@ -42,22 +49,45 @@
         <!-- session创建工厂 -->
         <property name="sessionFactory" ref="sessionFactory"/>
         
-        <!-- session持久化,暂时不使用 -->
-        <!-- <property name="sessionDAO" ref="onlineSessionDAO"/> -->
+        <!-- session持久化 -->
+        <property name="sessionDAO" ref="defaultSessionDAO"/>
         
         <!-- 默认是开启的,在会话过期后会调用SessionDAO的delete方法删除会话:如会话时持久化存储的,可以调用此方法进行删除 -->
         <property name="deleteInvalidSessions" value="false"/>
 
-		<!-- 会话验证调度器,暂时不使用 -->
-        <!-- <property name="sessionValidationInterval" value="${shiro.session.globalSessionTimeout}"/>
+		<!-- 会话验证调度器 -->
+        <property name="sessionValidationInterval" value="${shiro.session.globalSessionTimeout}"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
 
-		<!-- 缓存,暂时不使用 -->
-        <!-- <property name="cacheManager" ref="shiroCacheManager"/> -->
+		<!-- 缓存 -->
+        <property name="cacheManager" ref="shiroCacheManager"/>
         
+        <!-- 是否启用/禁用Session Id Cookie,默认是启用的;如果禁用后将不会设置Session Id Cookie,即默认使用了Servlet容器的JSESSIONID,且通过URL重写（URL中的“;JSESSIONID=id”部分）保存Session Id -->
         <property name="sessionIdCookieEnabled" value="true"/>
+        <!-- sessionManager创建会话Cookie的模板 -->
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        
+        <!-- 会话监听器 -->
+        <property name="sessionListeners">
+        	<list>
+        		<bean class="org.apache.shiro.session.listener.DefaultSessionListenerAdapter"/>
+        	</list>
+        </property>
+    </bean>
+    
+    <!-- session持久化 -->
+    <bean id="defaultSessionDAO" class="org.apache.shiro.session.dao.DefaultSessionDAO">
+    	<property name="cacheManager" ref="shiroCacheManager"/>
+    	<!-- 缓存名称使用默认值shiro-activeSessionCache -->
+    	<!-- <property name="activeSessionsCacheName" ref="shiro-activeSessionCache"/> -->
+    </bean>
+    
+    <!-- 会话验证调度器 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+    	<property name="sessionManager" ref="sessionManager"/>
+    	<!-- 验证间隔 -->
+    	<property name="interval" value="${shiro.session.validation.interval}"/>
     </bean>
 
 	<!-- securityManager -->
@@ -67,6 +97,8 @@
         <property name="sessionManager" ref="sessionManager"/>
         <!-- 暂时不使用 -->
         <!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
+        
+        <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
