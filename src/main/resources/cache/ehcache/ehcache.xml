@@ -90,8 +90,8 @@
 			overflowToDisk="false"
 			statistics="true"
 			timeToIdleSeconds="0"
-			timeToLiveSeconds="120">
-		<cacheEventListenerFactory class="com.jiangnan.es.cache.ehcache.listener.factory.DefaultCacheEventListenerFactory"/>
+			timeToLiveSeconds="0">
+		<!-- <cacheEventListenerFactory class="com.jiangnan.es.cache.ehcache.listener.factory.DefaultCacheEventListenerFactory"/> -->
 	</cache>
 	
 	<!-- shiro授权信息缓存 -->
@@ -102,8 +102,8 @@
 			overflowToDisk="false"
 			statistics="true"
 			timeToIdleSeconds="0"
-			timeToLiveSeconds="120">
-		<cacheEventListenerFactory class="com.jiangnan.es.cache.ehcache.listener.factory.DefaultCacheEventListenerFactory"/>
+			timeToLiveSeconds="0">
+		<!-- <cacheEventListenerFactory class="com.jiangnan.es.cache.ehcache.listener.factory.DefaultCacheEventListenerFactory"/> -->
 	</cache>
 	
 	<!-- shiro session缓存 -->
@@ -114,7 +114,7 @@
 			overflowToDisk="false"
 			statistics="true"
 			timeToIdleSeconds="0"
-			timeToLiveSeconds="120">
-		<cacheEventListenerFactory class="com.jiangnan.es.cache.ehcache.listener.factory.DefaultCacheEventListenerFactory"/>
+			timeToLiveSeconds="0">
+		<!-- <cacheEventListenerFactory class="com.jiangnan.es.cache.ehcache.listener.factory.DefaultCacheEventListenerFactory"/> -->
 	</cache>
 </ehcache>

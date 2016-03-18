@@ -75,9 +75,9 @@
 				var selectedRow = $("#privilegeList").jqGrid('getRowData', rowid);
 				var type = status? "add" : "del";
 				$.ajax({
-					type:'post',
+					type: 'post',
 					dataType: 'json',
-					url:"${ctx}/system/auth/role/${rid}/privileges/update",
+					url: "${ctx}/system/auth/role/${rid}/privileges/update",
 					data: {privilegeIds: selectedRow.id, type : type},
 					success: function(data) {
 						responseTips(data);

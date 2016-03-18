@@ -125,7 +125,8 @@
                 /favicon.ico = anon
                 /logout = logout
                 /login = authc
-                /** = kickout,user
+                /** = user
+                <!-- /** = kickout,user -->
             </value>
         </property>
     </bean>
